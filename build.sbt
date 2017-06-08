@@ -1,4 +1,4 @@
-me := "pio-eventserver-heroku"
+name := "eventserver"
 
 libraryDependencies ++= Seq(
   "io.prediction"    %% "tools"      % "0.9.6",
