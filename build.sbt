@@ -1,7 +1,11 @@
-name := "org.example.textclassification"
+me := "pio-eventserver-heroku"
 
 libraryDependencies ++= Seq(
-  "org.apache.predictionio" %% "apache-predictionio-core" % "0.11.0-incubating" % "provided",
-  "org.apache.spark"        %% "spark-core"               % "1.4.1" % "provided",
-  "org.apache.spark"        %% "spark-mllib"              % "1.4.1" % "provided",
-  "org.apache.lucene"        % "lucene-core"              % "6.5.1")
+  "io.prediction"    %% "tools"      % "0.9.6",
+  "org.apache.spark" %% "spark-core" % "1.5.1",
+  "org.postgresql"   %  "postgresql" % "9.4.1208"
+)
+
+cancelable in Global := true
+
+enablePlugins(JavaAppPackaging)
