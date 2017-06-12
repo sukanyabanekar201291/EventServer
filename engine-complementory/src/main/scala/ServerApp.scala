@@ -5,7 +5,6 @@ import io.prediction.data.storage.EngineManifest
 import io.prediction.workflow.{CreateServer, ServerConfig, WorkflowUtils}
 import spray.can.Http
 import spray.can.server.ServerSettings
-import java.util.logging.Logger
 
 object ServerApp extends App {
 
@@ -13,10 +12,12 @@ object ServerApp extends App {
   val eventServerIp = sys.env.getOrElse("EVENT_SERVER_IP", "localhost")
   val eventServerPort = sys.env.getOrElse("EVENT_SERVER_PORT", "7070").toInt
   val maybeAccessKey = sys.env.get("ACCESS_KEY")
-
-
+  println("port---"+port)
+  println("eventServerIp---"+eventServerIp)
+  println("eventServerPort----"+eventServerPort)
+  println("maybeAccessKey---"+maybeAccessKey)
   val maybeLatestEngineInstance = CreateServer.engineInstances.getLatestCompleted(EngineConfig.engineId, EngineConfig.engineVersion, EngineConfig.engineVariantId)
-
+  println("maybeLatestEngineInstance---"+maybeLatestEngineInstance)
   maybeLatestEngineInstance.map { engineInstance =>
     // the spark config needs to be set in the engineInstance
     engineInstance.copy(sparkConf = engineInstance.sparkConf.updated("spark.master", "local"))
@@ -34,8 +35,7 @@ object ServerApp extends App {
       eventServerPort = eventServerPort,
       accessKey = maybeAccessKey
     )
-    Logger.getAnonymousLogger.info("engineInstance.engineFactory:" + engineInstance.engineFactory)
-    //engineInstance.engineFactory = "org.template.textclassification.TextClassificationEngine"
+
     val (engineLanguage, engineFactory) = WorkflowUtils.getEngine(engineInstance.engineFactory, getClass.getClassLoader)
     val engine = engineFactory()
 
@@ -49,15 +49,14 @@ object ServerApp extends App {
       engineLanguage,
       manifest
     )
-
+    println("actor----"+actor)
     val actorSystem = ActorSystem("pio-server")
-
+    println("actorSystem-----"+actorSystem)
     val settings = ServerSettings(actorSystem)
-
+    println("settings-----"+settings) 
     IO(Http)(actorSystem) ! Http.Bind(listener = actor, interface = sc.ip, port = sc.port)
 
     actorSystem.awaitTermination()
   }
 
 }
-

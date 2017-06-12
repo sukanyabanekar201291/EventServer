@@ -1,0 +1,8 @@
+{
+  "name": "eventserver",
+  "description": "A Heroku compatible PredictionIO Event Server",
+  "keywords": [
+    "predictionio",
+    "machinelearning"
+  ]
+}
