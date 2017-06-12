@@ -4,5 +4,9 @@
   "keywords": [
     "predictionio",
     "machinelearning"
+  ],
+  "repository": "https://github.com/sukanyabanekar201291/eventserver",
+  "addons": [
+    "heroku-postgresql"
   ]
 }
